@@ -1,0 +1,5 @@
+-- those wifi_* are the base parameters that are saved anyway
+local p = {}
+p.wifi_ssid="<ssid>"
+p.wifi_password="<passwd>"
+return p
