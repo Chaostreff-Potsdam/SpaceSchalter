@@ -1,6 +1,5 @@
 -- those wifi_* are the base parameters that are saved anyway
 local p = {}
-p.wifi_ssid="<ssid>"
-p.wifi_password="<passwd>"
-p.mqtt_host="<mqtt_host>"
+p.wifi_ssid="freifunk"
+p.wifi_password=nil
 return p
