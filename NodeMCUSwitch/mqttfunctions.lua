@@ -1,5 +1,6 @@
 param = require("eus_params")
 
+print("loading mqtt")
 -- init mqtt client with logins, keepalive timer 120sec
 m = mqtt.Client(param.mqtt_clientid, 20, param.mqtt_user, param.mqtt_pass)
 
@@ -21,9 +22,12 @@ m:connect(param.mqtt_host, 1883, false, function(client)
 
   -- subscribe topic with qos = 0
   client:subscribe("/sensors/spaceschalter/status", 0, function(client) print("subscribe success") end)
-  -- publish a message with data = hello, QoS = 0, retain = 0
-  client:publish("/sensors/spaceschalter/status", "on", 0, 1, function(client) print("sent") end)
 end,
+
 function(client, reason)
   print("failed reason: " .. reason)
 end)
+
+function publish_status(topic, payload)
+    m:publish(topic, payload, 0, 0)
+end
