@@ -1,4 +1,3 @@
-import paho.mqtt.client as mqtt
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -12,7 +11,7 @@ mqttc = mqtt.Client()
 def messageReceived(client, userdata, message):
   print("received topic" + str(message.topic) + "with payload:" + str(message.payload)) 
 
-mqttc.username_pw_set("christoph","dNppWZ2nukh+RQ")
+mqttc.username_pw_set("user","pass")
 
 mqttc.on_message = messageReceived
 mqttc.connect("ccc-p.org", 1883, 60)
