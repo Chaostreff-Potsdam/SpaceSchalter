@@ -6,9 +6,38 @@
 -- app = require("app")
 
 config = require "config"
-mqfunctions = require "mqttfunctions"
 
-pin = 7    --> GPIO2
+wifi.sta.connect(function()
+    print("................")
+    print("................")
+    print("................")
+    print("................")
+    print("................")
+    print("................")    
+    mqfunctions = require "mqttfunctions"
+end)
+
+pin = 7
+
+offmode = string.char(0, 255, 0,
+                      0, 255, 0,
+                      0, 255, 0,
+                      0, 0, 0, 0, 0, 0, 0, 0, 0)
+onmode = string.char( 0, 0, 0, 
+                      0, 0, 0, 
+                      0, 0, 0, 
+                      255, 0, 0,
+                      255, 0, 0,
+                      255, 0, 0)
+
+ws2812.init()
+
+if gpio.read(pin) > 0 then
+    ws2812.write(onmode)
+else
+    ws2812.write(offmode)
+end
+
 
 function debounce (func)
     local last = 0
@@ -28,10 +57,12 @@ end
 function onChange ()
     if gpio.read(pin) > 0 then
         print('Switch ON')
+        ws2812.write(onmode)
         publish_status("/sensors/spaceschalter/status", "open")
     else
         print('Switch OFF')
-        publish_status("/sensors/spaceschalter/status", "close")
+        ws2812.write(offmode)
+        publish_status("/sensors/spaceschalter/status", "closed")
     end
 end
 

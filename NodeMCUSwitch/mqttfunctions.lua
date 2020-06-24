@@ -22,6 +22,15 @@ m:connect(param.mqtt_host, 1883, false, function(client)
 
   -- subscribe topic with qos = 0
   client:subscribe("/sensors/spaceschalter/status", 0, function(client) print("subscribe success") end)
+  m:publish("/sensors/spaceschalter/status", "on", 0, 0)
+
+    if gpio.read(7) > 0 then
+        print('Switch ON')
+        m:publish("/sensors/spaceschalter/status", "open", 0, 0)
+    else
+        print('Switch OFF')
+        m:publish("/sensors/spaceschalter/status", "closed", 0, 0)
+    end
 end,
 
 function(client, reason)
